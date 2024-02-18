@@ -63,7 +63,8 @@ config :phoenix, :json_library, Jason
 
 config :multi_tenant, Oban,
   repo: MultiTenant.Repo,
-  prefix: "oban", # Put OBAN in a separate prefix to avoid conflicts with the query validation
+  # Put OBAN in a separate prefix to avoid conflicts with the query validation
+  prefix: "oban",
   plugins: [
     Oban.Plugins.Pruner,
     {Oban.Plugins.Cron,

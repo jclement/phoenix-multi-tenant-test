@@ -2,6 +2,7 @@ defmodule MultiTenantWeb.Router do
   use MultiTenantWeb, :router
 
   import MultiTenantWeb.Plugs.TenantHandler
+  alias MultiTenantWeb.Plugs.TenantOriginCheck
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -10,6 +11,9 @@ defmodule MultiTenantWeb.Router do
     plug :put_root_layout, html: {MultiTenantWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+
+    plug TenantOriginCheck
+    
     plug :fetch_tenant
   end
 

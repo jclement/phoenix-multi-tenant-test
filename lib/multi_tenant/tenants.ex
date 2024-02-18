@@ -31,4 +31,14 @@ defmodule MultiTenant.Tenants do
   def get_tenant!(id) do
     Repo.get!(Tenant, id, skip_tenant_id: true)
   end
+
+  @doc """
+  Get origins for all tenants
+  """
+  def list_origins() do
+    Tenant
+    |> select([t], t.hosts)
+    |> Repo.all(skip_tenant_id: true)
+    |> Enum.flat_map(& &1)
+  end
 end
