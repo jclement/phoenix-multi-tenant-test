@@ -54,6 +54,9 @@ defmodule MultiTenantWeb do
       use Phoenix.LiveView,
         layout: {MultiTenantWeb.Layouts, :app}
 
+      # always set the tenant for live views
+      on_mount MultiTenantWeb.Plugs.TenantHandler
+
       unquote(html_helpers())
     end
   end

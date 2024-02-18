@@ -13,6 +13,19 @@
 alias MultiTenant.Repo
 alias MultiTenant.Todos.Todo
 alias MultiTenant.Notes.Note
+alias MultiTenant.Tenants.Tenant
+
+t1 =
+  Repo.insert!(%Tenant{
+    name: "Localhost",
+    hosts: ["localhost", "127.0.0.1"]
+  })
+
+t2 =
+  Repo.insert!(%Tenant{
+    name: "Microeggbert Oil Corporation.",
+    hosts: ["afenav.microeggbertoil.com"]
+  })
 
 Repo.insert!(%Note{
   title: "First Note",
@@ -26,15 +39,24 @@ Repo.insert!(%Note{
 
 Repo.insert!(%Todo{
   name: "First Todo",
-  done: false
+  done: false,
+  tenant_id: t1.id
 })
 
 Repo.insert!(%Todo{
   name: "Second Todo",
-  done: false
+  done: false,
+  tenant_id: t1.id
 })
 
 Repo.insert!(%Todo{
   name: "Third Todo",
-  done: true
+  done: true,
+  tenant_id: t1.id
+})
+
+Repo.insert!(%Todo{
+  name: "Another Todo",
+  done: true,
+  tenant_id: t2.id
 })

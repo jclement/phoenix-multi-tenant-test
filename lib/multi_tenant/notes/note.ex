@@ -1,4 +1,7 @@
 defmodule MultiTenant.Notes.Note do
+  @moduledoc """
+  The Notes context.  This object is global (not per tenant)
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
