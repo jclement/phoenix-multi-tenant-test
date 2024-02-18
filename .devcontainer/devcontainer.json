@@ -1,0 +1,22 @@
+{
+	"name": "Ubuntu",
+	"build": {"dockerfile": "Dockerfile"},
+	"postCreateCommand": ". .devcontainer/init.sh",
+	"forwardPorts": [4000, 5432],
+	
+	"customizations": {
+        "vscode": {
+            "extensions": [
+				"github.codespaces",
+				"tamasfe.even-better-toml",
+				"phoenixframework.phoenix",
+				"JakeBecker.elixir-ls",
+				"mechatroner.rainbow-csv",
+				"Arsen.darcula-theme-for-elixir",
+				"bradlc.vscode-tailwindcss",
+				"ms-azuretools.vscode-docker",
+				"ckolkman.vscode-postgres"
+			]
+        }
+	}
+}
