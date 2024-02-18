@@ -23,6 +23,9 @@ config :multi_tenant, MultiTenantWeb.Endpoint,
 # In test we don't send emails.
 config :multi_tenant, MultiTenant.Mailer, adapter: Swoosh.Adapters.Test
 
+# don't start scheduler in test environment
+config :multi_tenant, :start_oban, false
+
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
 

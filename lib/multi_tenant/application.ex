@@ -17,7 +17,9 @@ defmodule MultiTenant.Application do
           # Start the Finch HTTP client for sending emails
           {Finch, name: MultiTenant.Finch},
           # Start the Oban queue
-          if(Mix.env() != :test, do: {Oban, Application.fetch_env!(:multi_tenant, Oban)}),
+          if(Application.get_env(:multi_tenant, :start_oban, true),
+            do: {Oban, Application.fetch_env!(:multi_tenant, Oban)}
+          ),
           MultiTenantWeb.Endpoint
         ],
         &is_nil/1
