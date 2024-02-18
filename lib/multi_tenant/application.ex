@@ -14,6 +14,7 @@ defmodule MultiTenant.Application do
       {Phoenix.PubSub, name: MultiTenant.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: MultiTenant.Finch},
+      {Oban, Application.fetch_env!(:multi_tenant, Oban)},
       # Start a worker by calling: MultiTenant.Worker.start_link(arg)
       # {MultiTenant.Worker, arg},
       # Start to serve requests, typically the last entry
