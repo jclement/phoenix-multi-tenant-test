@@ -7,17 +7,21 @@ defmodule MultiTenant.Application do
 
   @impl true
   def start(_type, _args) do
-    children = [
-      MultiTenantWeb.Telemetry,
-      MultiTenant.Repo,
-      {DNSCluster, query: Application.get_env(:multi_tenant, :dns_cluster_query) || :ignore},
-      {Phoenix.PubSub, name: MultiTenant.PubSub},
-      # Start the Finch HTTP client for sending emails
-      {Finch, name: MultiTenant.Finch},
-      # Start the Oban queue
-      {Oban, Application.fetch_env!(:multi_tenant, Oban)},
-      MultiTenantWeb.Endpoint
-    ]
+    children =
+      Enum.reject(
+        [
+          MultiTenantWeb.Telemetry,
+          MultiTenant.Repo,
+          {DNSCluster, query: Application.get_env(:multi_tenant, :dns_cluster_query) || :ignore},
+          {Phoenix.PubSub, name: MultiTenant.PubSub},
+          # Start the Finch HTTP client for sending emails
+          {Finch, name: MultiTenant.Finch},
+          # Start the Oban queue
+          if(Mix.env() != :test, do: {Oban, Application.fetch_env!(:multi_tenant, Oban)}),
+          MultiTenantWeb.Endpoint
+        ],
+        &is_nil/1
+      )
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

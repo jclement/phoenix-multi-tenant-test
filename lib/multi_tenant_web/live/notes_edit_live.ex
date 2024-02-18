@@ -86,7 +86,7 @@ defmodule MultiTenantWeb.NotesEditLive do
       <div>
         <.simple_form for={@form} id="note-form" phx-change="validate" phx-submit="save">
           <.input field={@form[:title]} type="text" label="Title" />
-          <.input field={@form[:body]} type="text" label="Body" />
+          <.input field={@form[:body]} type="textarea" label="Body" />
 
           <:actions>
             <.button phx-disable-with="Saving...">
