@@ -11,6 +11,8 @@ defmodule MultiTenantWeb.Plugs.TenantHandler do
   alias MultiTenant.Tenants
 
   def fetch_tenant(conn, _opts) do
+    conn
+
     case Tenants.get_tenant_by_hostname(conn.host) do
       {:ok, tenant} ->
         # add tenant ID to process dictionary to be used by DB operations
