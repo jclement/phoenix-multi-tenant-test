@@ -8,11 +8,7 @@ defmodule MultiTenantWeb.TodoLiveTest do
   @update_attrs %{name: "some updated name", done: true}
   @invalid_attrs %{name: nil, done: false}
 
-  defp create_todo(%{conn: conn}) do
-    # this is a workaround to kick off the tenant handler plug so that
-    # the tenant is set for the create_todo call to work.
-    head(conn, "/")
-
+  defp create_todo(_) do
     todo = todo_fixture()
     %{todo: todo}
   end

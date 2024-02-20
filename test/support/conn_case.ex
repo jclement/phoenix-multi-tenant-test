@@ -40,6 +40,10 @@ defmodule MultiTenantWeb.ConnCase do
     {t1, _t2} = MultiTenant.TenantsFixtures.tenants_fixture()
     conn = %Plug.Conn{conn | host: hd(t1.hosts)}
 
+    # initialize Repo with tenant 1 so that, by default, setup
+    # steps have an assigned tenant.
+    MultiTenant.Repo.put_tenant_id(t1.id)
+
     {:ok, conn: conn}
   end
 end
