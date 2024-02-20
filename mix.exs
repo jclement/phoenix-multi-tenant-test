@@ -53,7 +53,8 @@ defmodule MultiTenant.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:oban, "~> 2.16"},
       {:oban_live_dashboard, "~> 0.1"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:memoize, "~> 1.4"}
     ]
   end
 

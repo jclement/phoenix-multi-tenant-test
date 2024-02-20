@@ -1,8 +1,6 @@
 defmodule MultiTenantWeb.Router do
   use MultiTenantWeb, :router
 
-  import MultiTenantWeb.Plugs.TenantHandler
-
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -10,7 +8,7 @@ defmodule MultiTenantWeb.Router do
     plug :put_root_layout, html: {MultiTenantWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :fetch_tenant
+    plug {MultiTenantWeb.Plugs.TenantHandler, :fetch_tenant}
   end
 
   pipeline :api do
