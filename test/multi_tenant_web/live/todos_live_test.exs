@@ -8,20 +8,17 @@ defmodule MultiTenantWeb.TodoLiveTest do
   @update_attrs %{name: "some updated name", done: true}
   @invalid_attrs %{name: nil, done: false}
 
-  defp create_todo(_) do
+  defp create_todo(%{conn: conn}) do
+    # this is a workaround to kick off the tenant handler plug so that
+    # the tenant is set for the create_todo call to work.
+    head(conn, "/")
+
     todo = todo_fixture()
     %{todo: todo}
   end
 
-  defp poke_connection(%{conn: conn}) do
-    # this is a workaround to kick off the tenant handler plug so that
-    # the tenant is set for the create_todo call to work.
-    get(conn, "/")
-    :ok
-  end
-
   describe "Index" do
-    setup [:poke_connection, :create_todo]
+    setup [:create_todo]
 
     test "lists todos", %{conn: conn, todo: todo} do
       {:ok, _index_live, html} = live(conn, ~p"/todos")
@@ -81,7 +78,7 @@ defmodule MultiTenantWeb.TodoLiveTest do
   end
 
   describe "Update Todo" do
-    setup [:poke_connection, :create_todo]
+    setup [:create_todo]
 
     test "update existing todo", %{conn: conn, todo: todo} do
       {:ok, index_live, _html} = live(conn, ~p"/todos/#{todo.id}/edit")
