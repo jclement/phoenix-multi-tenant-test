@@ -19,20 +19,40 @@ defmodule MultiTenant.Notes do
     %Note{}
     |> Note.changeset(attrs)
     |> Repo.insert(skip_tenant_id: true)
+    |> broadcast(:create)
   end
 
   def update(%Note{} = note, attrs) do
     note
     |> Note.changeset(attrs)
     |> Repo.update(skip_tenant_id: true)
+    |> broadcast(:update)
   end
 
   def delete(%Note{} = note) do
     note
     |> Repo.delete(skip_tenant_id: true)
+    |> broadcast(:delete)
   end
 
   def changeset(%Note{} = note, attrs \\ %{}) do
     Note.changeset(note, attrs)
+  end
+
+  @topic "notes"
+  defp broadcast({:ok, question}, tag) do
+    Phoenix.PubSub.broadcast(
+      MultiTenant.PubSub,
+      @topic,
+      {__MODULE__, tag, question}
+    )
+
+    {:ok, question}
+  end
+
+  defp broadcast({:error, _reason} = error, _tag), do: error
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(MultiTenant.PubSub, @topic)
   end
 end

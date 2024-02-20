@@ -4,10 +4,19 @@ defmodule MultiTenantWeb.TodosLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      Todos.subscribe()
+    end
+
     {:ok,
      socket
      |> assign(:page_title, "Todos")
      |> assign(:todos, Todos.list())}
+  end
+
+  @impl true
+  def handle_info({MultiTenant.Todos, _, _}, socket) do
+    {:noreply, socket |> assign(todos: Todos.list())}
   end
 
   @impl true

@@ -29,20 +29,43 @@ defmodule MultiTenant.Todos do
     # Ensure the tenant_id is added to new records
     |> put_change(:tenant_id, MultiTenant.Repo.get_tenant_id())
     |> Repo.insert()
+    |> broadcast(:create)
   end
 
   def update(%Todo{} = todo, attrs) do
     todo
     |> Todo.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:update)
   end
 
   def delete(%Todo{} = todo) do
     todo
     |> Repo.delete()
+    |> broadcast(:delete)
   end
 
   def changeset(%Todo{} = todo, attrs \\ %{}) do
     Todo.changeset(todo, attrs)
+  end
+
+  defp topic do
+    "todos/#{MultiTenant.Repo.get_tenant_id()}"
+  end
+
+  defp broadcast({:ok, question}, tag) do
+    Phoenix.PubSub.broadcast(
+      MultiTenant.PubSub,
+      topic(),
+      {__MODULE__, tag, question}
+    )
+
+    {:ok, question}
+  end
+
+  defp broadcast({:error, _reason} = error, _tag), do: error
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(MultiTenant.PubSub, topic())
   end
 end

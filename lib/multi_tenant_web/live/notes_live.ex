@@ -4,10 +4,19 @@ defmodule MultiTenantWeb.NotesLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      Notes.subscribe()
+    end
+
     {:ok,
      socket
      |> assign(:page_title, "Notes")
      |> assign(:notes, Notes.list())}
+  end
+
+  @impl true
+  def handle_info({MultiTenant.Notes, _, _}, socket) do
+    {:noreply, socket |> assign(notes: Notes.list())}
   end
 
   @impl true
