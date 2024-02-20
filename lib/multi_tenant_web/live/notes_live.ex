@@ -47,7 +47,7 @@ defmodule MultiTenantWeb.NotesLive do
         <%= note.body %>
       </:col>
       <:action :let={note}>
-        <.link patch={~p"/notes/#{note}/edit"}>
+        <.link patch={~p"/notes/#{note}/edit"} id={"edit-#{note.id}"}>
           <.icon name="hero-pencil" />
         </.link>
       </:action>
@@ -55,6 +55,7 @@ defmodule MultiTenantWeb.NotesLive do
         <.link
           phx-click={JS.push("delete", value: %{id: note.id}) |> hide("##{note.id}")}
           data-confirm="Are you sure?"
+          id={"delete-#{note.id}"}
         >
           <.icon name="hero-trash" />
         </.link>

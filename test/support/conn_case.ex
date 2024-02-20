@@ -33,6 +33,13 @@ defmodule MultiTenantWeb.ConnCase do
 
   setup tags do
     MultiTenant.DataCase.setup_sandbox(tags)
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+
+    conn = Phoenix.ConnTest.build_conn()
+
+    # always bootstrap with a host header for tenant 1
+    {t1, _t2} = MultiTenant.TenantsFixtures.tenants_fixture()
+    conn = %Plug.Conn{conn | host: hd(t1.hosts)}
+
+    {:ok, conn: conn}
   end
 end

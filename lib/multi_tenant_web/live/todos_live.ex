@@ -47,7 +47,7 @@ defmodule MultiTenantWeb.TodosLive do
         <%= todo.done %>
       </:col>
       <:action :let={todo}>
-        <.link patch={~p"/todos/#{todo}/edit"}>
+        <.link patch={~p"/todos/#{todo}/edit"} id={"edit-#{todo.id}"}>
           <.icon name="hero-pencil" />
         </.link>
       </:action>
@@ -55,6 +55,7 @@ defmodule MultiTenantWeb.TodosLive do
         <.link
           phx-click={JS.push("delete", value: %{id: todo.id}) |> hide("##{todo.id}")}
           data-confirm="Are you sure?"
+          id={"delete-#{todo.id}"}
         >
           <.icon name="hero-trash" />
         </.link>

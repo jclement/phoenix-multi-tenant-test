@@ -27,36 +27,38 @@ t2 =
     hosts: ["afenav.microeggbertoil.com"]
   })
 
-Repo.insert!(%Note{
-  title: "First Note",
-  body: "This is the first note"
-})
+if Mix.env() == :dev do
+  Repo.insert!(%Note{
+    title: "First Note",
+    body: "This is the first note"
+  })
 
-Repo.insert!(%Note{
-  title: "Second Note",
-  body: "This is the second note"
-})
+  Repo.insert!(%Note{
+    title: "Second Note",
+    body: "This is the second note"
+  })
 
-Repo.insert!(%Todo{
-  name: "First Todo",
-  done: false,
-  tenant_id: t1.id
-})
+  Repo.insert!(%Todo{
+    name: "First Todo",
+    done: false,
+    tenant_id: t1.id
+  })
 
-Repo.insert!(%Todo{
-  name: "Second Todo",
-  done: false,
-  tenant_id: t1.id
-})
+  Repo.insert!(%Todo{
+    name: "Second Todo",
+    done: false,
+    tenant_id: t1.id
+  })
 
-Repo.insert!(%Todo{
-  name: "Third Todo",
-  done: true,
-  tenant_id: t1.id
-})
+  Repo.insert!(%Todo{
+    name: "Third Todo",
+    done: true,
+    tenant_id: t1.id
+  })
 
-Repo.insert!(%Todo{
-  name: "Another Todo",
-  done: true,
-  tenant_id: t2.id
-})
+  Repo.insert!(%Todo{
+    name: "Another Todo",
+    done: true,
+    tenant_id: t2.id
+  })
+end
